@@ -1,9 +1,11 @@
 import { Client } from "@notionhq/client";
-
+import { config } from "dotenv";
 // 初始化 Notion 客户端
+
+config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY }); // 使用你的 Notion API 密钥
-console.log(JSON.stringify(notion, null, 2));
-aaaa;
+console.log("Notion API Key: ", process.env.NOTION_API_KEY);
+
 // 设置数据库 ID
 const databaseId = "your-database-id"; // 在 Notion 中找到你的数据库 ID
 

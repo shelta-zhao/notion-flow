@@ -1,0 +1,96 @@
+@import "../mixins.scss";
+
+.container {
+  display: grid;
+  grid-template-columns: auto repeat(54, 10px);
+  grid-template-rows: auto repeat(7, 10px) auto;
+  gap: 3px;
+
+  width: fit-content;
+  font-size: 12px;
+  padding: 14px;
+  border: solid 1px #d1d9e0;
+  border-radius: 0.375rem;
+
+  @include mobile-layout {
+    display: none; /* 太长手机显示不下 */
+  }
+}
+
+.month {
+  grid-row: 1/2;
+  // margin-bottom: -3px;
+}
+
+.week {
+  grid-row: 3;
+  grid-column: 1/2;
+  line-height: 10px;
+  margin-right: 3px;
+  text-align: left;
+
+  & + .week {
+    grid-row: 5;
+  }
+
+  & + .week + .week {
+    grid-row: 7;
+  }
+}
+
+.tiles {
+  grid-column: 2/56;
+  grid-row: 2/9;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+.tile {
+  pointer-events: auto;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+
+  outline: 1px solid rgba(27, 35, 36, 0.06);
+  outline-offset: -1px;
+
+  &[data-level="0"] {
+    background: #ebedf0;
+  }
+  &[data-level="1"] {
+    background: #9be9a8;
+  }
+  &[data-level="2"] {
+    background: #40c463;
+  }
+  &[data-level="3"] {
+    background: #30a14e;
+  }
+  &[data-level="4"] {
+    background: #216e39;
+  }
+  &[data-level="-1"] {
+    background: transparent;
+    outline: 1px solid transparent;
+  }
+}
+
+.total {
+  grid-column: 1/30;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.legend {
+  grid-column: 30/53;
+  margin-top: 4px;
+
+  display: flex;
+  gap: 5px;
+  justify-content: right;
+  align-items: center;
+}

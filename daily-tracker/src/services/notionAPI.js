@@ -1,45 +1,38 @@
 import { Client } from "@notionhq/client";
 import { config } from "dotenv";
-// 初始化 Notion 客户端
 
 config();
-const notion = new Client({ auth: process.env.NOTION_API_KEY }); // 使用你的 Notion API 密钥
-console.log("Notion API Key: ", process.env.NOTION_API_KEY);
 
-// 设置数据库 ID
-const databaseId = "your-database-id"; // 在 Notion 中找到你的数据库 ID
+async function main() {
+  // 读取环境变量
+  const date = new Date(1728272654618);
+  const month = date.getMonth();
+  console.log(month);
 
-// 更新数据库中的一个页面
-export const updateDatabase = async (properties) => {
-  try {
-    const response = await notion.pages.create({
-      parent: { database_id: databaseId },
-      properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: properties.name, // 将传入的名字更新到数据库中
-              },
-            },
-          ],
-        },
-        Status: {
-          select: {
-            name: properties.status, // 更新状态
-          },
-        },
-        Date: {
-          date: {
-            start: properties.date, // 设置日期
-          },
-        },
-      },
-    });
+  // const NOTION_API_KEY = process.env.NOTION_API_KEY;
+  // const NOTION_PAGE_ID = process.env.NOTION_PAGE_ID;
+  // const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
-    console.log("Page created: ", response);
-    return response;
-  } catch (error) {
-    console.error("Error creating page: ", error);
-  }
-};
+  // // 初始化 Notion 客户端
+  // const notion = new Client({ auth: process.env.NOTION_API_KEY });
+
+  // const { results } = await notion.databases.query({
+  //   database_id: NOTION_DATABASE_ID,
+  // });
+  // const pageIds = results.map((page) => page.id);
+
+  // for (const pageId of pageIds) {
+  //   const {
+  //     child_page: { title },
+  //   } = await notion.blocks.retrieve({ block_id: pageId });
+  //   console.log(title);
+  // }
+  // console.log(results);
+  //   // 获取页面信息
+  //   const response = await notion.blocks.retrieve({ block_id: NOTION_PAGE_ID });
+
+  //   // 输出页面信息
+  //   console.log(response);
+}
+
+main();

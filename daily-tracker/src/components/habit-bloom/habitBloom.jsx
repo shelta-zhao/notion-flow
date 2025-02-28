@@ -1,6 +1,14 @@
-import React from "react";
+/**
+ * @file    : src/modules/BloomData.js
+ * @author  : Shelta Zhao(赵小棠)
+ * @email   : xiaotang_zhao@outlook.com
+ * @brief   : define the component of HabitBloom
+ * @version : 1.0.0 - 2025-02-28
+ */
+
 import clsx from "clsx";
-import styles from "./habitBloom.module.scss";
+import React from "react";
+import styles from "./HabitBloom.module.scss";
 
 const MONTH = [
   "Jan",
@@ -17,45 +25,58 @@ const MONTH = [
   "Dec",
 ];
 
-function ContributionCalendar({ contributions, className, ...rest }) {
-  // const year = new Date().getFullYear() - 3;
-  const year = 2028;
-  const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
-  const startRow = getStartDayOfYear(year) % 7;
+function HabitBloom({ BloomData, className, ...rest }) {
+  // Get the current date and week
+  const date = new Date(Object.keys(BloomData)[0]);
+  const week = date.getDay();
+
+  // Initialize the tiles and months
+  const tiles = [];
   const months = [];
   let latestMonth = -1;
 
-  const tiles = [];
-  for (let i = 0; i < startRow; i++) {
+  // Push the empty tiles before the first data
+  for (let i = 0; i < week; i++) {
     tiles.push(<span className={styles.tile} key={i} data-level={-1} />);
   }
 
-  for (let i = 0; i < 366; i++) {
-    const nextDate = new Date(firstDayOfYear);
-    nextDate.setDate(firstDayOfYear.getDate() + i);
-    const month = nextDate.getMonth();
+  // Generate the tiles and months
+  let index = week;
+  Object.entries(BloomData).forEach(([record, gridCell]) => {
+    const date = new Date(record);
+    const month = date.getMonth();
 
-    if (nextDate.getDay() === 0 && month !== latestMonth) {
+    if (date.getDay() === 0 && month !== latestMonth) {
       const gridColumn =
-        Math.floor((i + startRow) / 7) + (latestMonth === -1 ? 1 : 2);
+        Math.floor((index + week) / 7) + (latestMonth === -1 ? 1 : 2);
       latestMonth = month;
       months.push(
-        <span className={styles.month} key={i} style={{ gridColumn }}>
-          {MONTH[month]}
+        <span className={styles.month} key={index} style={{ gridColumn }}>
+          {MONTH[date.getMonth()]}
         </span>
       );
     }
-    const s = nextDate.toISOString().split("T")[0];
     tiles.push(
       <span
         className={styles.tile}
-        key={i}
-        data-level={0}
-        title={`No contributions on ${s}`}
+        key={index++}
+        data-level={gridCell.getLevel()}
+        title={`${gridCell.getValue()} contributions on ${
+          date.toISOString().split("T")[0]
+        }`}
       />
     );
+  });
+
+  // Adjust the first month if necessary
+  if (
+    Object.keys(months).length > 12 ||
+    months[1].props.style.gridColumn - months[0].props.style.gridColumn < 3
+  ) {
+    months[0] = null;
   }
 
+  // Return the habit bloom component
   return (
     <div {...rest} className={clsx(styles.container, className)}>
       {months}
@@ -79,7 +100,7 @@ function ContributionCalendar({ contributions, className, ...rest }) {
   );
 }
 
-export default React.memo(ContributionCalendar);
+export default React.memo(HabitBloom);
 
 function getTooltip(oneDay, date) {
   const s = date.toISOString().split("T")[0];
@@ -91,15 +112,4 @@ function getTooltip(oneDay, date) {
     default:
       return `${oneDay} contributions on ${s}`;
   }
-}
-
-function getStartDayOfYear(year) {
-  // Get the day of the week of the first day of the year
-  const firstDay = new Date(year, 0, 1);
-  return firstDay.getDay();
-}
-
-function isLeapYear(year) {
-  // Check if the year is a leap year
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }

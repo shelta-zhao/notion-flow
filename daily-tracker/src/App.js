@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="App">
-      <HabitBloom BloomData={studyData} />
+      <HabitBloom BloomData={fakeData} />
     </div>
   );
 }

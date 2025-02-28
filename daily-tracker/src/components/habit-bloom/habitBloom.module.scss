@@ -1,5 +1,16 @@
 @import "../mixins.scss";
 
+.parent-container {
+  display: flex; /* 使用 flexbox 布局 */
+  flex-direction: column; /* 将子元素垂直排列 */
+  align-items: flex-start; /* 左对齐 */
+  justify-content: flex-start; /* 上对齐 */
+  gap: 20px; /* 在顶部和底部留出空隙 */
+  padding: 20px; /* 父容器的内边距 */
+  width: 100%; /* 设定父容器宽度为 100% 或其他适合的值 */
+  box-sizing: border-box;
+}
+
 .container {
   display: grid;
   grid-template-columns: auto repeat(54, 10px);
@@ -14,6 +25,10 @@
 
   @include mobile-layout {
     display: none; /* 太长手机显示不下 */
+  }
+
+  .tab.active + & {
+    border-top: 2px solid #216e39; /* 根据选中的标签调整边框颜色 */
   }
 }
 
@@ -93,4 +108,34 @@
   gap: 5px;
   justify-content: right;
   align-items: center;
+}
+
+/* 标签区样式 */
+.tabContainer {
+  display: flex;
+  gap: 10px;
+  /* 标签的上边框将与container的边框融合 */
+  border-bottom: 2px solid #d1d9e0; /* 标签区与container的边框融合 */
+  margin-bottom: 10px; /* 给标签区和内容区之间留一点间距 */
+}
+
+.tab {
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+
+  /* 默认为普通状态 */
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  /* 使得选中的标签和container边框融合 */
+  border-bottom: 2px solid #216e39; /* 这里的颜色可以根据需要调整 */
 }

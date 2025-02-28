@@ -10,7 +10,7 @@ import HabitStore from "./HabitStore.js";
 
 class BloomData {
   constructor() {
-    this.count = 1;
+    this.count = 0;
     this.habits = {};
     this.addHabit(); // create a default habit
   }
@@ -21,6 +21,7 @@ class BloomData {
         const year = new Date().getFullYear();
         this.habits[name] = new HabitStore(name, unit, type);
         this.habits[name].init(year);
+        this.count++;
       } else {
         throw new Error("The habit already exists.");
       }

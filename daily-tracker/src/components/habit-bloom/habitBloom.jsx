@@ -7,8 +7,8 @@
  */
 
 import clsx from "clsx";
-import React from "react";
 import styles from "./HabitBloom.module.scss";
+import React, { useState } from "react";
 
 const MONTH = [
   "Jan",
@@ -26,8 +26,11 @@ const MONTH = [
 ];
 
 function HabitBloom({ BloomData, className, ...rest }) {
+  const [selectedHabit, setSelectedHabit] = useState(Object.keys(BloomData)[0]);
+  const HabitData = BloomData[selectedHabit];
+
   // Get the current date and week
-  const date = new Date(Object.keys(BloomData)[0]);
+  const date = new Date(Object.keys(HabitData)[0]);
   const week = date.getDay();
 
   // Initialize the tiles and months
@@ -42,7 +45,7 @@ function HabitBloom({ BloomData, className, ...rest }) {
 
   // Generate the tiles and months
   let index = week;
-  Object.entries(BloomData).forEach(([record, gridCell]) => {
+  Object.entries(HabitData).forEach(([record, gridCell]) => {
     const date = new Date(record);
     const month = date.getMonth();
 
@@ -78,23 +81,43 @@ function HabitBloom({ BloomData, className, ...rest }) {
 
   // Return the habit bloom component
   return (
-    <div {...rest} className={clsx(styles.container, className)}>
-      {months}
-      <span className={styles.week}>Mon</span>
-      <span className={styles.week}>Wed</span>
-      <span className={styles.week}>Fri</span>
+    <div {...rest} className={clsx(styles.parentContainer, className)}>
+      {/* 标签区 */}
+      <div className={styles.tabContainer}>
+        {Object.keys(BloomData).map((habit) => (
+          <span
+            key={habit}
+            className={clsx(
+              styles.tab,
+              habit === selectedHabit && styles.active
+            )}
+            onClick={() => setSelectedHabit(habit)}
+          >
+            {habit}
+          </span>
+        ))}
+      </div>
 
-      <div className={styles.tiles}>{tiles}</div>
+      {/* 内容区 */}
+      <div className={clsx(styles.container)}>
+        {/* 月份和周几 */}
+        {months}
+        <span className={styles.week}>Mon</span>
+        <span className={styles.week}>Wed</span>
+        <span className={styles.week}>Fri</span>
 
-      <div className={styles.total}>233 contributions in the last year</div>
-      <div className={styles.legend}>
-        Less
-        <i className={styles.tile} data-level={0} />
-        <i className={styles.tile} data-level={1} />
-        <i className={styles.tile} data-level={2} />
-        <i className={styles.tile} data-level={3} />
-        <i className={styles.tile} data-level={4} />
-        More
+        <div className={styles.tiles}>{tiles}</div>
+
+        <div className={styles.total}>233 contributions in the last year</div>
+        <div className={styles.legend}>
+          Less
+          <i className={styles.tile} data-level={0} />
+          <i className={styles.tile} data-level={1} />
+          <i className={styles.tile} data-level={2} />
+          <i className={styles.tile} data-level={3} />
+          <i className={styles.tile} data-level={4} />
+          More
+        </div>
       </div>
     </div>
   );

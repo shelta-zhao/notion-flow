@@ -2,84 +2,83 @@
  * @file    : src/modules/BloomData.js
  * @author  : Shelta Zhao(赵小棠)
  * @email   : xiaotang_zhao@outlook.com
- * @brief   : define the class of GridCell
+ * @brief   : define the class of BloomData
  * @version : 1.0.0 - 2025-02-28
  */
 
-import GridCell from "./GridCell.js";
-import { isLeapYear } from "../utils/utils.js";
+import HabitStore from "./HabitStore.js";
 
 class BloomData {
-  constructor(type = "count", unit = "") {
-    this.type = type; // 'count' or 'value or 'check''
-    this.unit = unit;
-    this.data = {};
+  constructor() {
+    this.count = 1;
+    this.habits = {};
+    this.addHabit(); // create a default habit
   }
 
-  init(year) {
-    // Initialize the data of the year
-    this.data[year] = {};
-
-    // Initialize the gird cell of the year
-    const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
-    const dayOfYear = isLeapYear(year) ? 366 : 365;
-
-    // Initialize the grid cell for each day of the year
-    for (let day = 0; day < dayOfYear; day++) {
-      const date = new Date(firstDayOfYear);
-      date.setDate(firstDayOfYear.getDate() + day);
-      const dateString = date.toISOString().split("T")[0];
-      this.data[year][dateString] = new GridCell();
-    }
-  }
-
-  saveOneData(date, value) {
-    // Check if the year is initialized
-    const year = new Date(date).getFullYear();
-    if (!this.data[year]) {
-      this.init(year);
-    }
-
-    // Save the data
-    const dateString = date.toISOString().split("T")[0];
-    this.data[year][dateString].setValue(value);
-  }
-
-  getOneData(date) {
-    const year = new Date(date).getFullYear();
-    console.log(date);
-    if (!this.data[year]) {
-      this.init(year);
-    }
-    const dateString = date.toISOString().split("T")[0];
-    return this.data[year][dateString];
-  }
-
-  getLast365Days() {
-    const today = new Date();
-    const oneYearAgo = new Date(today);
-    oneYearAgo.setDate(today.getDate() - 365);
-    const datalen = 365 + oneYearAgo.getDay();
-    let result = {};
-
-    // Loop from the day one year ago
-    for (let day = datalen; day >= 0; day--) {
-      const date = new Date(today);
-      date.setDate(today.getDate() - day);
-      result[date.toISOString().split("T")[0]] = this.getOneData(date);
-    }
-
-    return result;
-  }
-
-  getYearData(year) {
-    // Get the data of a certain year
+  addHabit(name = "default", type = "count", unit = "times") {
     try {
-      return this.data[year];
-    } catch (err) {
-      console.error("Unable to get the data of the year", year);
-      return null;
+      if (!this.habits[name]) {
+        const year = new Date().getFullYear();
+        this.habits[name] = new HabitStore(name, unit, type);
+        this.habits[name].init(year);
+      } else {
+        throw new Error("The habit already exists.");
+      }
+    } catch (error) {
+      console.error("Error adding habit:", error.message);
     }
+  }
+
+  saveOneHabitData(name, date, value) {
+    try {
+      if (this.habits[name]) {
+        this.habits[name].saveOneData(date, value);
+      } else {
+        throw new Error("The habit does not exist.");
+      }
+    } catch (err) {
+      console.error("Unable to save to the habit :", name);
+    }
+  }
+
+  getOneHabitData(name, date) {
+    try {
+      if (this.habits[name]) {
+        return this.habits[name].getOneData(date);
+      } else {
+        throw new Error("The habit does not exist.");
+      }
+    } catch (err) {
+      console.error("Unable to get from the habit :", name);
+    }
+  }
+
+  getHabitYearData(name, year) {
+    try {
+      if (this.habits[name]) {
+        return this.habits[name].getYearData(year);
+      } else {
+        throw new Error("The habit does not exist.");
+      }
+    } catch (err) {
+      console.error("Unable to get from the habit :", name);
+    }
+  }
+
+  getHabitLast365Days(name) {
+    try {
+      if (this.habits[name]) {
+        return this.habits[name].getLast365Days();
+      } else {
+        throw new Error("The habit does not exist.");
+      }
+    } catch (err) {
+      console.error("Unable to get from the habit :", name);
+    }
+  }
+
+  getHabitList() {
+    return Object.keys(this.habits);
   }
 }
 

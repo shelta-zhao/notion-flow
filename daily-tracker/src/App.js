@@ -2,16 +2,24 @@ import "./App.css";
 import seedrandom from "seedrandom";
 import BloomData from "./modules/BloomData.js";
 import HabitBloom from "./components/habit-bloom/HabitBloom.jsx";
+import LanguageProvider from "./context/LanguageContext.js";
+import SettingsPanel from "./components/setting-button/SettingsPanel.js";
 
 function App() {
-  const fakeData = generateFakeData();
-  const studyData = fakeData["exercise"];
-
   return (
-    <div className="App">
-      <HabitBloom BloomData={fakeData} />
-    </div>
+    <LanguageProvider>
+      <SettingsPanel />
+      {/* 其他组件 */}
+    </LanguageProvider>
   );
+  // const fakeData = generateFakeData();
+  // const studyData = fakeData["exercise"];
+
+  // return (
+  //   <div className="App">
+  //     <HabitBloom BloomData={fakeData} />
+  //   </div>
+  // );
 }
 
 export default App;

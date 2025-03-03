@@ -1,15 +1,8 @@
 {
-  "habit_one": "Habit One",
-  "habit_two": "Habit Two",
-  "habit_three": "Habit Three",
-  "refresh": "Refresh",
-  "settings": "Settings",
-  "longest_streak": "Longest streak",
-  "num_entries": "Number of entries",
-  "average": "Average",
-  "completed": "Completed",
-  "edit": "Edit",
-  "add_habit": "Add Habit",
-  "language": "Language",
-  "theme": "Theme"
+  "refresh": "刷新",
+  "settings": "设置",
+  "add_habit": "新建习惯",
+  "language": "语言",
+  "lightMode": "浅色",
+  "darkMode": "深色"
 }

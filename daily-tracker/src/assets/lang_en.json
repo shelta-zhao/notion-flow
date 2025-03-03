@@ -1,15 +1,8 @@
 {
-  "habit_one": "习惯一",
-  "habit_two": "习惯二",
-  "habit_three": "习惯三",
-  "refresh": "刷新",
-  "settings": "设置",
-  "longest_streak": "最长连续天数",
-  "num_entries": "完成次数",
-  "average": "平均值",
-  "completed": "已完成",
-  "edit": "编辑",
-  "add_habit": "添加习惯",
-  "language": "语言",
-  "theme": "主题"
+  "refresh": "Refresh",
+  "settings": "Settings",
+  "add_habit": "Add Habit",
+  "language": "Language",
+  "lightMode": "Light",
+  "darkMode": "Dark"
 }

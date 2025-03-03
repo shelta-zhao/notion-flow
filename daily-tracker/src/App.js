@@ -9,7 +9,7 @@ import { HabitProvider } from "./context/HabitContext.js";
 import HabitSelector from "./components/HabitSelector.js";
 import Heatmap from "./components/HeatMap.js";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 function App() {
   // 1. Define the state variables
@@ -17,8 +17,6 @@ function App() {
   // 3. Pass the data to the components
 
   const [data, setData] = useState(generateGrid());
-  const [habits, setHabits] = useState(["exercise", "study", "drinkWater"]);
-  const [selectedHabit, setSelectedHabit] = useState(habits[0]);
 
   const handleCellClick = (week, day) => {
     const newData = [...data];
@@ -26,16 +24,6 @@ function App() {
     setData(newData);
   };
 
-  const handleSelectHabit = (habit) => {
-    setSelectedHabit(habit);
-  };
-
-  const handleAddHabit = () => {
-    const newHabit = prompt("Enter new habit:");
-    if (newHabit) {
-      setHabits([...habits, newHabit]);
-    }
-  };
   // // <SettingsPanel />
   // return (
   //   <LanguageProvider>
@@ -54,13 +42,40 @@ function App() {
   //     </ThemeProvider>
   //   </LanguageProvider>
   // );
-  const fakeData = generateFakeData();
-  const studyData = fakeData["exercise"];
-  //<HabitBloom habitManager={fakeData} />
+  const fakeData = useMemo(() => generateFakeData(), []);
+  const [habits, setHabits] = useState(fakeData.getHabitList());
+  const [selectedHabit, setSelectedHabit] = useState(habits[0]);
+  const [habitData, setHabitData] = useState(
+    fakeData.getHabitLast365Days(selectedHabit)
+  );
+
+  useEffect(() => {
+    setHabitData(fakeData.getHabitLast365Days(selectedHabit));
+  }, [selectedHabit, fakeData]);
+
+  const handleSelectHabit = (habit) => {
+    setSelectedHabit(habit);
+  };
+
+  const handleAddHabit = () => {
+    const newHabit = prompt("Enter new habit:");
+    if (newHabit) {
+      setHabits([...habits, newHabit]);
+      fakeData.addHabit(newHabit, "count", "times");
+    }
+  };
+
+  //<SettingsPanel />
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <SettingsPanel />
+        <HabitSelector
+          habits={habits}
+          selectedHabit={selectedHabit}
+          onSelectHabit={handleSelectHabit}
+          onAddHabit={handleAddHabit}
+        />
+        <HabitBloom HabitData={habitData} />
       </ThemeProvider>
     </LanguageProvider>
   );
@@ -113,11 +128,5 @@ function generateFakeData() {
     }
   });
 
-  // 输出生成的所有习惯的过去365天数据
-  const last365DaysData = {};
-
-  habits.forEach((habit) => {
-    last365DaysData[habit.name] = bloomData.getHabitLast365Days(habit.name);
-  });
-  return last365DaysData;
+  return bloomData;
 }

@@ -3,11 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  border-bottom: 2px solid #ddd;
+  // border-bottom: 2px solid #ddd;
 
   .habit-tabs {
     display: flex;
     gap: 10px;
+    position: relative;
+    top: 10px;
   }
 
   .habit-tab {
@@ -22,13 +24,28 @@
     border-bottom: 2px solid #0057b7;
   }
 
+  // .add-habit {
+  //   border: none;
+  //   background: #0057b7;
+  //   color: white;
+  //   font-size: 16px;
+  //   padding: 4px 8px;
+  //   border-radius: 5px;
+  //   cursor: pointer;
+  // }
   .add-habit {
     border: none;
-    background: #0057b7;
-    color: white;
+    background: transparent; /* 默认背景透明 */
+    color: #0057b7; /* 设置文本颜色为蓝色 */
     font-size: 16px;
     padding: 4px 8px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s; /* 添加过渡效果 */
+  }
+
+  .add-habit:hover {
+    background: #0057b7; /* 鼠标悬停时显示背景颜色 */
+    color: white; /* 鼠标悬停时文本颜色变为白色 */
   }
 }

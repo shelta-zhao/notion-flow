@@ -1,5 +1,5 @@
 /**
- * @file    : src/modules/BloomData.js
+ * @file    : src/components/habit-bloom
  * @author  : Shelta Zhao(赵小棠)
  * @email   : xiaotang_zhao@outlook.com
  * @brief   : define the component of HabitBloom
@@ -7,7 +7,7 @@
  */
 
 import clsx from "clsx";
-import styles from "./HabitBloom.module.scss";
+import styles from "../../styles/HabitBloom.module.scss";
 import React, { useState } from "react";
 
 const MONTH = [
@@ -25,11 +25,13 @@ const MONTH = [
   "Dec",
 ];
 
-function HabitBloom({ BloomData, className, ...rest }) {
-  const [selectedHabit, setSelectedHabit] = useState(Object.keys(BloomData)[0]);
-  const HabitData = BloomData[selectedHabit];
-
+function HabitBloom({ HabitData, className, ...rest }) {
   // Get the current date and week
+  if (!HabitData || Object.keys(HabitData).length === 0) {
+    return (
+      <div className={clsx(styles.container, className)}>No data available</div>
+    );
+  }
   const date = new Date(Object.keys(HabitData)[0]);
   const week = date.getDay();
 
@@ -45,7 +47,7 @@ function HabitBloom({ BloomData, className, ...rest }) {
 
   // Generate the tiles and months
   let index = week;
-  Object.entries(HabitData).forEach(([record, gridCell]) => {
+  Object.entries(HabitData).forEach(([record, habitGrid]) => {
     const date = new Date(record);
     const month = date.getMonth();
 
@@ -63,8 +65,8 @@ function HabitBloom({ BloomData, className, ...rest }) {
       <span
         className={styles.tile}
         key={index++}
-        data-level={gridCell.getLevel()}
-        title={`${gridCell.getValue()} contributions on ${
+        data-level={habitGrid.getLevel()}
+        title={`${habitGrid.getValue()} contributions on ${
           date.toISOString().split("T")[0]
         }`}
       />
@@ -88,43 +90,24 @@ function HabitBloom({ BloomData, className, ...rest }) {
 
   // Return the habit bloom component
   return (
-    <div {...rest} className={clsx(styles.parentContainer, className)}>
-      {/* 标签区 */}
-      <div className={styles.tabContainer}>
-        {Object.keys(BloomData).map((habit) => (
-          <span
-            key={habit}
-            className={clsx(
-              styles.tab,
-              habit === selectedHabit && styles.active
-            )}
-            onClick={() => setSelectedHabit(habit)}
-          >
-            {habit}
-          </span>
-        ))}
-      </div>
+    <div className={clsx(styles.container)}>
+      {/* 月份和周几 */}
+      {months}
+      <span className={styles.week}>Mon</span>
+      <span className={styles.week}>Wed</span>
+      <span className={styles.week}>Fri</span>
 
-      {/* 内容区 */}
-      <div className={clsx(styles.container)}>
-        {/* 月份和周几 */}
-        {months}
-        <span className={styles.week}>Mon</span>
-        <span className={styles.week}>Wed</span>
-        <span className={styles.week}>Fri</span>
+      <div className={styles.tiles}>{tiles}</div>
 
-        <div className={styles.tiles}>{tiles}</div>
-
-        <div className={styles.total}>233 contributions in the last year</div>
-        <div className={styles.legend}>
-          Less
-          <i className={styles.tile} data-level={0} />
-          <i className={styles.tile} data-level={1} />
-          <i className={styles.tile} data-level={2} />
-          <i className={styles.tile} data-level={3} />
-          <i className={styles.tile} data-level={4} />
-          More
-        </div>
+      <div className={styles.total}>233 contributions in the last year</div>
+      <div className={styles.legend}>
+        Less
+        <i className={styles.tile} data-level={0} />
+        <i className={styles.tile} data-level={1} />
+        <i className={styles.tile} data-level={2} />
+        <i className={styles.tile} data-level={3} />
+        <i className={styles.tile} data-level={4} />
+        More
       </div>
     </div>
   );

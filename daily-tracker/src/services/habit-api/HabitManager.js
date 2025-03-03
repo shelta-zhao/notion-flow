@@ -1,14 +1,14 @@
 /**
- * @file    : src/modules/BloomData.js
+ * @path    : src/services/habit-api
  * @author  : Shelta Zhao(赵小棠)
  * @email   : xiaotang_zhao@outlook.com
- * @brief   : define the class of BloomData
+ * @brief   : define the class of HabitManager
  * @version : 1.0.0 - 2025-02-28
  */
 
 import HabitStore from "./HabitStore.js";
 
-class BloomData {
+class HabitManager {
   constructor() {
     this.count = 0;
     this.habits = {};
@@ -83,4 +83,4 @@ class BloomData {
   }
 }
 
-export default BloomData;
+export default HabitManager;

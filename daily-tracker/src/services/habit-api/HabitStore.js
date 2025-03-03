@@ -1,13 +1,13 @@
 /**
- * @file    : src/modules/HabitStore.js
+ * @path    : src/services/habit-api
  * @author  : Shelta Zhao(赵小棠)
  * @email   : xiaotang_zhao@outlook.com
  * @brief   : define the class of HabitStore
  * @version : 1.0.0 - 2025-02-28
  */
 
-import GridCell from "./GridCell.js";
-import { isLeapYear } from "../utils/utils.js";
+import HabitGrid from "./HabitGrid.js";
+import { isLeapYear } from "../../utils/utils.js";
 
 class HabitStore {
   constructor(name = "default", type = "count", unit = "times") {
@@ -25,12 +25,12 @@ class HabitStore {
     const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
     const dayOfYear = isLeapYear(year) ? 366 : 365;
 
-    // Initialize the grid cell for each day of the year
+    // Initialize the habit grid cell for each day of the year
     for (let day = 0; day < dayOfYear; day++) {
       const date = new Date(firstDayOfYear);
       date.setDate(firstDayOfYear.getDate() + day);
       const dateString = date.toISOString().split("T")[0];
-      this.data[year][dateString] = new GridCell();
+      this.data[year][dateString] = new HabitGrid();
     }
   }
 

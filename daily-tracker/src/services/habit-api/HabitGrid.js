@@ -1,12 +1,12 @@
 /**
- * @file    : src/modules/GridCell.js
+ * @path    : src/services/habit-api
  * @author  : Shelta Zhao(赵小棠)
  * @email   : xiaotang_zhao@outlook.com
- * @brief   : define the class of GridCell
+ * @brief   : define the class of HabitGrid
  * @version : 1.0.0 - 2025-02-28
  */
 
-class GridCell {
+class HabitGrid {
   constructor(value = 0, level = 0) {
     this.value = value;
     this.level = 0;
@@ -50,4 +50,4 @@ class GridCell {
   }
 }
 
-export default GridCell;
+export default HabitGrid;

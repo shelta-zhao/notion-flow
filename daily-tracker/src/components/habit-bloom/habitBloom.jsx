@@ -72,8 +72,15 @@ function HabitBloom({ BloomData, className, ...rest }) {
   });
 
   // Adjust the first month if necessary
+  if (Object.keys(months).length > 12) {
+    if (months[0].props.style.gridColumn > 3) {
+      months[-1] = null;
+    } else {
+      months[0] = null;
+    }
+  }
   if (
-    Object.keys(months).length > 12 ||
+    months[0] &&
     months[1].props.style.gridColumn - months[0].props.style.gridColumn < 3
   ) {
     months[0] = null;

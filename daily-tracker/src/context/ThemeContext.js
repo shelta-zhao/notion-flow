@@ -1,3 +1,11 @@
+/**
+ * @path    : src/context
+ * @author  : Shelta Zhao(赵小棠)
+ * @email   : xiaotang_zhao@outlook.com
+ * @brief   : define the theme context provider
+ * @version : 1.0.0 - 2025-03-03
+ */
+
 import React, { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext();

@@ -1,0 +1,37 @@
+.main-container {
+  display: grid;
+  grid-template-columns: auto auto; /* 第一列自适应，第二列固定 */
+  grid-template-rows: auto 1fr; /* 第一行自动，第二行占满 */
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: start;
+}
+
+/* 习惯选择器（左侧） */
+.habit-selector {
+  grid-column: 1;
+  grid-row: 1;
+  // width: 100%;
+  max-width: 800px;
+}
+
+.settings-panel {
+  grid-column: 2; /* 放在第二列 */
+  grid-row: 1; /* 放在第一行 */
+  justify-self: end; /* 让它靠右 */
+  align-self: center; /* 垂直居中 */
+}
+
+/* ✅ 确保 HabitBloom（热力图）在第二行 */
+.habit-bloom {
+  grid-column: 1 / span 2;
+  grid-row: 2; /* 放在第二行 */
+  width: 100%;
+  max-width: 800px;
+  min-height: 300px; /* 💡 试试加个最小高度，确保它不会被挤到第一行 */
+  align-self: start;
+  background-color: rgba(0, 255, 0, 0.2);
+}

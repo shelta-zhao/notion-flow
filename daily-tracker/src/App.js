@@ -8,7 +8,7 @@ import ThemeProvider from "./context/ThemeContext.js";
 import { HabitProvider } from "./context/HabitContext.js";
 import HabitSelector from "./components/HabitSelector.js";
 import Heatmap from "./components/HeatMap.js";
-
+import "./styles/MainContainer.scss";
 import React, { useState, useEffect, useMemo } from "react";
 
 function App() {
@@ -65,17 +65,22 @@ function App() {
     }
   };
 
-  //<SettingsPanel />
+  //
+  //          <button className="settings-button">Settings</button>
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <HabitSelector
-          habits={habits}
-          selectedHabit={selectedHabit}
-          onSelectHabit={handleSelectHabit}
-          onAddHabit={handleAddHabit}
-        />
-        <HabitBloom HabitData={habitData} />
+        <div className="main-container">
+          <HabitSelector
+            habits={habits}
+            selectedHabit={selectedHabit}
+            onSelectHabit={handleSelectHabit}
+            onAddHabit={handleAddHabit}
+            className="habit-selector"
+          />
+          <HabitBloom HabitData={habitData} className="habit-bloom" />
+          <SettingsPanel className="settings-panel" />
+        </div>
       </ThemeProvider>
     </LanguageProvider>
   );

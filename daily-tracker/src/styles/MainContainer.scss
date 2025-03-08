@@ -1,28 +1,45 @@
-.main-container {
-  display: grid;
-  grid-template-columns: auto auto; /* 第一列自适应，第二列固定 */
-  grid-template-rows: auto 1fr; /* 第一行自动，第二行占满 */
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-  padding: 20px;
-  box-sizing: border-box;
-  align-items: start;
+.background {
+  display: flex;
+  width: 100vw;
+  height: 33vh;
+  padding-top: 3vh;
+  /* Set the display mod and backgroud color*/
+  justify-content: center;
+  align-items: flex-start;
+  background-color: white;
 }
 
-/* 习惯选择器（左侧） */
-.habit-selector {
-  grid-column: 1;
-  grid-row: 1;
-  // width: 100%;
-  max-width: 800px;
+.main-view {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  padding: 2vw 4vh; /* 内部留白，保证内容不靠边 */
+  max-width: 1000px; /* 限制最大宽度，防止在大屏幕上过宽 */
+  border: 2px solid #ccc; /* 添加 2px 宽度的灰色边框 */
+  border-radius: 5px; /* 可选，圆角 */
 }
+
+.first-row {
+  display: minmax(0, 1fr);
+  // justify-content: space-between; /* 左右分布，左侧自适应，右侧固定 */
+  align-items: center; /* 垂直居中 */
+  white-space: nowrap;
+}
+
+// /* 习惯选择器（左侧） */
+// .habit-selector {
+//   max-width: 800px;
+//   min-width: 0; /* 允许收缩 */
+//   overflow: hidden;
+//   white-space: nowrap;
+//   text-overflow: ellipsis;
+// }
 
 .settings-panel {
-  grid-column: 2; /* 放在第二列 */
-  grid-row: 1; /* 放在第一行 */
-  justify-self: end; /* 让它靠右 */
-  align-self: center; /* 垂直居中 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* 防止自动收缩 */
 }
 
 /* ✅ 确保 HabitBloom（热力图）在第二行 */

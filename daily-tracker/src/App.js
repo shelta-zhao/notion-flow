@@ -67,19 +67,25 @@ function App() {
 
   //
   //          <button className="settings-button">Settings</button>
+
+  // <SettingsPanel className="settings-panel" />
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <div className="main-container">
-          <HabitSelector
-            habits={habits}
-            selectedHabit={selectedHabit}
-            onSelectHabit={handleSelectHabit}
-            onAddHabit={handleAddHabit}
-            className="habit-selector"
-          />
-          <HabitBloom HabitData={habitData} className="habit-bloom" />
-          <SettingsPanel className="settings-panel" />
+        <div className="background">
+          <div className="main-view">
+            <div className="first-row">
+              <HabitSelector
+                habits={habits}
+                selectedHabit={selectedHabit}
+                onSelectHabit={handleSelectHabit}
+                onAddHabit={handleAddHabit}
+                className="habit-selector"
+              />
+            </div>
+
+            <HabitBloom HabitData={habitData} className="habit-bloom" />
+          </div>
         </div>
       </ThemeProvider>
     </LanguageProvider>
